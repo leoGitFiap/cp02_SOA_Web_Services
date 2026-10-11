@@ -4,10 +4,8 @@ package br.com.fiap.checkpoint2.model;
 
 // 14, 17, 19.
 import java.time.LocalDate;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import lombok.Getter;
@@ -27,8 +25,9 @@ import jakarta.validation.constraints.Positive;
 @NoArgsConstructor
 // 13.
 @AllArgsConstructor
+// 62.
+@Table(name = "Pedidos")
 public class OrderModel {
-
     // 16.
     @GeneratedValue
     // 15.
