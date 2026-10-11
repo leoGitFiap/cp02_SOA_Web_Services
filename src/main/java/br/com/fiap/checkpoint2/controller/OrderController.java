@@ -2,9 +2,9 @@
 
 package br.com.fiap.checkpoint2.controller;
 
+// 53.
 import java.util.List;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import br.com.fiap.checkpoint2.model.OrderModel;
 import br.com.fiap.checkpoint2.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 
 // 40.
 @RequestMapping ("/orders")
@@ -72,6 +73,8 @@ public class OrderController {
         }
     }
 
+    // 52.
+    @DeleteMapping("/{code}")
     // 51.
     public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
         try {
