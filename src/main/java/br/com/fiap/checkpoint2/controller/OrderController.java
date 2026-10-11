@@ -4,14 +4,11 @@ package br.com.fiap.checkpoint2.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.fiap.checkpoint2.model.OrderModel;
 import br.com.fiap.checkpoint2.service.OrderService;
@@ -60,6 +57,16 @@ public class OrderController {
             return new ResponseEntity<>(order, HttpStatus.OK);
         }
         catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+    // 49.
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @Valid @RequestBody OrderModel order) {
+        try {
+            OrderModel orderModel = orderService.updateOrder(id,order);
+            return new ResponseEntity<>(orderModel, HttpStatus.OK);
+        } catch (EntityNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
