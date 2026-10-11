@@ -60,13 +60,24 @@ public class OrderController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+    // 50.
+    @PutMapping("/{code}")
     // 49.
-    @PutMapping("/{id}")
     public ResponseEntity<Object> updateOrder(@PathVariable Long id, @Valid @RequestBody OrderModel order) {
         try {
             OrderModel orderModel = orderService.updateOrder(id,order);
             return new ResponseEntity<>(orderModel, HttpStatus.OK);
         } catch (EntityNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // 51.
+    public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
+        try {
+            orderService.deleteOrderById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
