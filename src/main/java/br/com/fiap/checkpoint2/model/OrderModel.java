@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+
+import javax.swing.plaf.LabelUI;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,7 +37,7 @@ public class OrderModel {
     // 16.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // 5.
-    private long id;
+    private Long id;
 
     // 18.
     @NotEmpty(message = "O nome do cliente é obrigatório")
@@ -47,7 +50,7 @@ public class OrderModel {
     // 21.
     @Positive
     // 20.
-    @DecimalMin (value = "0.0", inclusive = false, message = "O valor total do pedido não pode ser negativo.")
+    @DecimalMin (value = "0.0", message = "O valor total do pedido não pode ser negativo.")
     // 8.
     private BigDecimal totalValue;
 
