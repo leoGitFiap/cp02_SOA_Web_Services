@@ -50,12 +50,12 @@ public class OrderService {
 
     // 33.
     public void deleteOrderById(Long id) {
-        try {
-            orderRepository.deleteById(id);
-        }
-        catch (EmptyResultDataAccessException e) {
-            throw new EmptyResultDataAccessException("Pedido não encontrado com o ID: " + id, 1);
-        }
+    try {
+        readOrderById(id);
+        orderRepository.deleteById(id);
+    } catch (EmptyResultDataAccessException e) {
+        throw new EntityNotFoundException("Pedido não encontrado com o ID: " + id);
     }
+}
 
 }

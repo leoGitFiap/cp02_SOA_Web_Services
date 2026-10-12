@@ -28,10 +28,11 @@ import jakarta.validation.constraints.Positive;
 // 62.
 @Table(name = "Pedidos")
 public class OrderModel {
-    // 16.
-    @GeneratedValue
+    
     // 15.
     @Id
+    // 16.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     // 5.
     private long id;
 

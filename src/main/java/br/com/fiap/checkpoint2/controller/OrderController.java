@@ -30,7 +30,8 @@ public class OrderController {
     // 44.
     @PostMapping
     // 43.
-    public ResponseEntity<Object> createOrder(OrderModel order) {
+    public ResponseEntity<Object> createOrder(
+        @Valid @RequestBody OrderModel order) {
 
         try {
             OrderModel orderModel = orderService.createOrder(order);
@@ -49,10 +50,9 @@ public class OrderController {
         return orderService.readAllOrders();
     }
 
-    // 48.
-    @GetMapping("/{code}")
     // 47.
-    public ResponseEntity<Object> getOrders(@PathVariable Long id) {
+    @GetMapping("/{code}")
+    public ResponseEntity<Object> getOrders(@PathVariable("code") Long id) {
         try {
             OrderModel order =  orderService.readOrderById(id);
             return new ResponseEntity<>(order, HttpStatus.OK);
@@ -61,10 +61,11 @@ public class OrderController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
     // 50.
     @PutMapping("/{code}")
     // 49.
-    public ResponseEntity<Object> updateOrder(@PathVariable Long id, @Valid @RequestBody OrderModel order) {
+    public ResponseEntity<Object> updateOrder(@PathVariable("code") Long id, @Valid @RequestBody OrderModel order) {
         try {
             OrderModel orderModel = orderService.updateOrder(id,order);
             return new ResponseEntity<>(orderModel, HttpStatus.OK);
@@ -76,7 +77,7 @@ public class OrderController {
     // 52.
     @DeleteMapping("/{code}")
     // 51.
-    public ResponseEntity<Object> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteOrder(@PathVariable("code") Long id) {
         try {
             orderService.deleteOrderById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
