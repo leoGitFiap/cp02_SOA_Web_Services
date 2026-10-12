@@ -9,8 +9,6 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-import javax.swing.plaf.LabelUI;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
