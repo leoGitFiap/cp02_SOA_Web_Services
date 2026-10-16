@@ -6,8 +6,10 @@ package br.com.fiap3espa.checkpoint2.model;
 import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import lombok.Getter;
@@ -20,6 +22,7 @@ import jakarta.validation.constraints.Positive;
 
 // 10.
 @Entity
+@Table(name = "orders")
 // 11.
 @Getter
 @Setter
@@ -30,11 +33,11 @@ import jakarta.validation.constraints.Positive;
 public class OrderModel {
 
     // 16.
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     // 15.
     @Id
     // 5.
-    private long id;
+    private Long id;
 
     // 18.
     @NotEmpty(message = "O nome do cliente é obrigatório")

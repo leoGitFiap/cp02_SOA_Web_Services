@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +34,7 @@ public class OrderController {
     // 44.
     @PostMapping
     // 43.
-    public ResponseEntity<Object> createOrder(OrderModel order) {
+    public ResponseEntity<Object> createOrder(@RequestBody @Valid OrderModel order) {
 
         try {
             OrderModel orderModel = orderService.createOrder(order);
@@ -52,7 +54,7 @@ public class OrderController {
     }
 
     // 48.
-    @GetMapping("/{code}")
+    @GetMapping("/{id}")
     // 47.
     public ResponseEntity<Object> getOrders(@PathVariable Long id) {
         try {
