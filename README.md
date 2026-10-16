@@ -57,6 +57,7 @@ Os caminhos abaixo são relativos à raiz do projeto, onde fica o arquivo `pom.x
 | `src/main/resources/application.properties` | Configurações da aplicação, do banco H2 e do Flyway. |
 | `src/main/resources/db/migration/V1__create_order_table.sql` | Migration do Flyway que cria a tabela `orders`. |
 | `src/test/java/br/com/fiap3espa/checkpoint2/Checkpoint2ApplicationTests.java` | Teste de carregamento do contexto do Spring. |
+| `docs/prints/` | Capturas de tela que comprovam a execução das operações do CRUD. |
 | `target/` | Arquivos gerados pela compilação; não contém o código-fonte a ser editado. |
 
 ## Organização da aplicação
@@ -173,6 +174,64 @@ curl -i -X PUT http://localhost:8085/orders/1 \
 curl -i -X DELETE http://localhost:8085/orders/1
 ```
 
+## Evidências dos testes
+
+Os prints abaixo registram a execução das operações do CRUD com a aplicação rodando localmente na porta 8085, utilizando o Postman e o navegador. Antes das capturas, foram cadastrados cinco pedidos (IDs 1 a 5); em seguida, o pedido de ID 3 foi consultado, atualizado e excluído. As imagens ficam na pasta `docs/prints/`.
+
+### 1. Cadastrar pedido — `POST /orders`
+
+Envio do corpo `{"clientName": "Carlos", "totalValue": 350.50}`. A API responde `201 Created` com o pedido salvo: o `id` 5 foi gerado pelo banco e a `orderDate` foi preenchida automaticamente com a data atual pelo método `@PrePersist`.
+
+![POST /orders cadastrando o pedido do cliente Carlos com resposta 201 Created](docs/prints/01-post-cadastrar-pedido.png)
+
+### 2. Listar pedidos pelo navegador — `GET /orders`
+
+Acesso a `http://localhost:8085/orders` diretamente pelo navegador, exibindo os cinco pedidos cadastrados (Vitor, Leonardo, Giovanni, Caio e Carlos).
+
+![Navegador exibindo a lista com os cinco pedidos cadastrados](docs/prints/02-get-listar-pedidos-navegador.png)
+
+### 3. Listar pedidos pelo Postman — `GET /orders`
+
+A mesma listagem realizada pelo Postman, retornando um array JSON com os cinco pedidos.
+
+![Postman listando os cinco pedidos cadastrados](docs/prints/03-get-listar-pedidos-postman.png)
+
+### 4. Listar pedidos com status da resposta — `GET /orders`
+
+Listagem pelo Postman exibindo também o status `200 OK` da resposta.
+
+![Postman listando os pedidos com status 200 OK](docs/prints/04-get-listar-pedidos-status-200.png)
+
+### 5. Consultar pedido pelo ID — `GET /orders/3`
+
+Consulta do pedido de ID 3. A API responde `200 OK` com os dados do pedido do cliente Giovanni, no valor de 50.50.
+
+![GET /orders/3 retornando o pedido do cliente Giovanni com status 200 OK](docs/prints/05-get-consultar-pedido-por-id.png)
+
+### 6. Atualizar pedido — `PUT /orders/3`
+
+Envio do corpo `{"clientName": "João", "totalValue": 89.90}` para o pedido de ID 3. A API responde `200 OK` com o pedido atualizado; o `id` e a `orderDate` foram preservados, e apenas o nome do cliente e o valor total foram alterados.
+
+![PUT /orders/3 atualizando o pedido para o cliente João com status 200 OK](docs/prints/06-put-atualizar-pedido.png)
+
+### 7. Conferir a atualização — `GET /orders`
+
+Nova listagem após a atualização: o pedido de ID 3 passa a exibir o cliente João e o valor 89.90, enquanto os demais pedidos permanecem inalterados.
+
+![Listagem após a atualização mostrando o pedido 3 com o cliente João](docs/prints/07-get-listar-apos-atualizacao.png)
+
+### 8. Excluir pedido — `DELETE /orders/3`
+
+Exclusão do pedido de ID 3. A API responde `204 No Content`, sem corpo de resposta. O corpo JSON visível no Postman é apenas um resíduo da requisição anterior e é ignorado pelo endpoint de exclusão.
+
+![DELETE /orders/3 com resposta 204 No Content](docs/prints/08-delete-excluir-pedido.png)
+
+### 9. Conferir a exclusão — `GET /orders`
+
+Listagem após a exclusão: restam os pedidos de IDs 1, 2, 4 e 5, confirmando que o pedido de ID 3 foi removido do banco.
+
+![Listagem após a exclusão sem o pedido de ID 3](docs/prints/09-get-listar-apos-exclusao.png)
+
 ## Migrations do banco com Flyway
 
 O Flyway executa automaticamente, na inicialização da aplicação, os arquivos SQL da pasta `src/main/resources/db/migration`. Cada arquivo precisa seguir a convenção de nome `V<versão>__<descrição>.sql` (com dois sublinhados); arquivos fora desse padrão são ignorados.
@@ -204,4 +263,4 @@ No Windows — PowerShell:
 .\mvnw.cmd test
 ```
 
-O teste `contextLoads()` verifica se o contexto da aplicação Spring consegue iniciar, incluindo a execução da migration do Flyway e a validação da entidade. Ele não testa individualmente os endpoints do CRUD. Os exemplos de requisições acima permitem conferir as operações manualmente.
+O teste `contextLoads()` verifica se o contexto da aplicação Spring consegue iniciar, incluindo a execução da migration do Flyway e a validação da entidade. Ele não testa individualmente os endpoints do CRUD. Os exemplos de requisições acima permitem conferir as operações manualmente, e a seção [Evidências dos testes](#evidências-dos-testes) mostra o resultado dessa verificação.
