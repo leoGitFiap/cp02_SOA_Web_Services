@@ -1,19 +1,26 @@
 // 37.
 
-package br.com.fiap.checkpoint2.controller;
+package br.com.fiap3espa.checkpoint2.controller;
 
-// 53.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
-import br.com.fiap.checkpoint2.model.OrderModel;
-import br.com.fiap.checkpoint2.service.OrderService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.fiap3espa.checkpoint2.model.OrderModel;
+import br.com.fiap3espa.checkpoint2.service.OrderService;
+import jakarta.persistence.EntityNotFoundException;
 
 // 40.
 @RequestMapping ("/orders")
@@ -30,8 +37,7 @@ public class OrderController {
     // 44.
     @PostMapping
     // 43.
-    public ResponseEntity<Object> createOrder(
-        @Valid @RequestBody OrderModel order) {
+    public ResponseEntity<Object> createOrder(@RequestBody @Valid OrderModel order) {
 
         try {
             OrderModel orderModel = orderService.createOrder(order);
@@ -50,9 +56,10 @@ public class OrderController {
         return orderService.readAllOrders();
     }
 
+    // 48.
+    @GetMapping("/{id}")
     // 47.
-    @GetMapping("/{code}")
-    public ResponseEntity<Object> getOrders(@PathVariable("code") Long id) {
+    public ResponseEntity<Object> getOrders(@PathVariable("id") Long id) {
         try {
             OrderModel order =  orderService.readOrderById(id);
             return new ResponseEntity<>(order, HttpStatus.OK);
@@ -62,27 +69,25 @@ public class OrderController {
         }
     }
 
-    // 50.
-    @PutMapping("/{code}")
-    // 49.
-    public ResponseEntity<Object> updateOrder(@PathVariable("code") Long id, @Valid @RequestBody OrderModel order) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> putOrder(@PathVariable("id") Long id, @RequestBody @Valid OrderModel order) {
         try {
-            OrderModel orderModel = orderService.updateOrder(id,order);
+            OrderModel orderModel = orderService.updateOrder(id, order);
             return new ResponseEntity<>(orderModel, HttpStatus.OK);
-        } catch (EntityNotFoundException e){
+        }
+        catch (EntityNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-    // 52.
-    @DeleteMapping("/{code}")
-    // 51.
-    public ResponseEntity<Object> deleteOrder(@PathVariable("code") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable("id") Long id) {
         try {
             orderService.deleteOrderById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
+
 }

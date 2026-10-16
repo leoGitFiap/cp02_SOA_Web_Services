@@ -1,15 +1,15 @@
 // 26.
 
-package br.com.fiap.checkpoint2.service;
+package br.com.fiap3espa.checkpoint2.service;
 
-// 36.
-import br.com.fiap.checkpoint2.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import br.com.fiap.checkpoint2.model.OrderModel;
+
+import br.com.fiap3espa.checkpoint2.model.OrderModel;
+import br.com.fiap3espa.checkpoint2.repository.OrderRepository;
 
 // 34.
 @Service
@@ -50,12 +50,13 @@ public class OrderService {
 
     // 33.
     public void deleteOrderById(Long id) {
-    try {
-        readOrderById(id);
-        orderRepository.deleteById(id);
-    } catch (EmptyResultDataAccessException e) {
-        throw new EntityNotFoundException("Pedido não encontrado com o ID: " + id);
+        try {
+            readOrderById(id);
+            orderRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new EmptyResultDataAccessException("Pedido não encontrado com o ID: " + id, 1);
+        }
     }
-}
 
 }

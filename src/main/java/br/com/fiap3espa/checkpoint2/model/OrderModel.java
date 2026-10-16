@@ -1,14 +1,17 @@
 // 3 e 4 - Criando a classe OrderModel e o pacote model
 
-package br.com.fiap.checkpoint2.model;
+package br.com.fiap3espa.checkpoint2.model;
 
 // 14, 17, 19.
 import java.time.LocalDate;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +22,7 @@ import jakarta.validation.constraints.Positive;
 
 // 10.
 @Entity
+@Table(name = "orders")
 // 11.
 @Getter
 @Setter
@@ -26,14 +30,12 @@ import jakarta.validation.constraints.Positive;
 @NoArgsConstructor
 // 13.
 @AllArgsConstructor
-// 62.
-@Table(name = "Pedidos")
 public class OrderModel {
-    
-    // 15.
-    @Id
+
     // 16.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // 15.
+    @Id
     // 5.
     private Long id;
 
@@ -48,7 +50,7 @@ public class OrderModel {
     // 21.
     @Positive
     // 20.
-    @DecimalMin (value = "0.0", message = "O valor total do pedido não pode ser negativo.")
+    @DecimalMin (value = "0.0", inclusive = false, message = "O valor total do pedido não pode ser negativo.")
     // 8.
     private BigDecimal totalValue;
 
