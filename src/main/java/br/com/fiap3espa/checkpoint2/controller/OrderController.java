@@ -7,9 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,13 +59,34 @@ public class OrderController {
     // 48.
     @GetMapping("/{id}")
     // 47.
-    public ResponseEntity<Object> getOrders(@PathVariable Long id) {
+    public ResponseEntity<Object> getOrders(@PathVariable("id") Long id) {
         try {
             OrderModel order =  orderService.readOrderById(id);
             return new ResponseEntity<>(order, HttpStatus.OK);
         }
         catch (EntityNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> putOrder(@PathVariable("id") Long id, @RequestBody @Valid OrderModel order) {
+        try {
+            OrderModel orderModel = orderService.updateOrder(id, order);
+            return new ResponseEntity<>(orderModel, HttpStatus.OK);
+        }
+        catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable("id") Long id) {
+        try {
+            orderService.deleteOrderById(id);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 

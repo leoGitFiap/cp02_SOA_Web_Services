@@ -51,6 +51,7 @@ public class OrderService {
     // 33.
     public void deleteOrderById(Long id) {
         try {
+            readOrderById(id);
             orderRepository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e) {
