@@ -1,6 +1,6 @@
 // 3 e 4 - Criando a classe OrderModel e o pacote model
 
-package br.com.fiap.checkpoint2.model;
+package br.com.fiap3espa.checkpoint2.model;
 
 // 14, 17, 19.
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 // 37.
 
-package br.com.fiap.checkpoint2.controller;
+package br.com.fiap3espa.checkpoint2.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.checkpoint2.model.OrderModel;
-import br.com.fiap.checkpoint2.service.OrderService;
+import br.com.fiap3espa.checkpoint2.model.OrderModel;
+import br.com.fiap3espa.checkpoint2.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 
 // 40.
